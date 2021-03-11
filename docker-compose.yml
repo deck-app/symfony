@@ -1,0 +1,25 @@
+version: '3'
+
+services:
+  myapp:
+    image: 'bitnami/symfony:latest'
+    ports:
+      - '${SYMFONY_HTTP_PORT}:8000'
+    volumes:
+      - '${APP_CODE_PATH_HOST}:/app'
+    environment:
+      - SYMFONY_PROJECT_NAME=${SYMFONY_PROJECT_NAME}
+      - MARIADB_HOST=${DB_HOST}
+      - MARIADB_PORT_NUMBER=${DB_PORT}
+      - MARIADB_USER=${DB_USER}
+      - MARIADB_PASSWORD=${DB_PASSWORD}
+      - MARIADB_DATABASE=${DB_NAME}
+    depends_on:
+      - mariadb
+  mariadb:
+    image: 'bitnami/mariadb:10.3'
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+      - MARIADB_USER=${DB_USER}
+      - MARIADB_PASSWORD=${DB_PASSWORD}
+      - MARIADB_DATABASE=${DB_NAME}

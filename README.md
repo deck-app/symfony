@@ -13,8 +13,8 @@ The quickest way to get started with the Bitnami Symfony Development Container i
 Begin by creating a directory for your Symfony application:
 
 ```console
-$ mkdir ~/myapp
-$ cd ~/myapp
+$ mkdir ~/symfony
+$ cd ~/symfony
 ```
 
 Download the [docker-compose.yml](https://raw.githubusercontent.com/bitnami/bitnami-docker-symfony/master/docker-compose.yml) file in the application directory:
@@ -31,19 +31,19 @@ Set a few environment variables in the `docker-compose.yml`:
 version: '3'
 
 services:
-  myapp:
+  symfony:
     image: 'bitnami/symfony:latest'
     ports:
       - '8000:8000'
     volumes:
       - '.:/app'
     environment:
-      - SYMFONY_PROJECT_NAME=myapp
+      - SYMFONY_PROJECT_NAME=symfony
       - MARIADB_HOST=mariadb
       - MARIADB_PORT_NUMBER=3306
       - MARIADB_USER=bobby
       - MARIADB_PASSWORD=tables
-      - MARIADB_DATABASE=myapp
+      - MARIADB_DATABASE=symfony
     depends_on:
       - mariadb
   mariadb:
@@ -52,7 +52,7 @@ services:
       - ALLOW_EMPTY_PASSWORD=yes
       - MARIADB_USER=bobby
       - MARIADB_PASSWORD=tables
-      - MARIADB_DATABASE=myapp
+      - MARIADB_DATABASE=symfony
 ```
 
 Finally launch the Symfony application development environment using:
@@ -61,13 +61,13 @@ Finally launch the Symfony application development environment using:
 $ docker-compose up
 ```
 
-The above command creates a container service for Symfony development and bootstraps a new Symfony application, named `myapp` in working directory. You can use your favorite IDE for developing the application.
+The above command creates a container service for Symfony development and bootstraps a new Symfony application, named `symfony` in working directory. You can use your favorite IDE for developing the application.
 
 After the built-in PHP application server has been started, visit http://localhost:8000 in your favorite web browser and you'll be greeted by the Symfony welcome page.
 
 ## Executing commands
 
-Commands can be launched inside the `myapp` Symfony Development Container with `docker-compose` using the [exec](https://docs.docker.com/compose/reference/exec/) command.
+Commands can be launched inside the `symfony` Symfony Development Container with `docker-compose` using the [exec](https://docs.docker.com/compose/reference/exec/) command.
 
 > **Note**:
 >
@@ -85,13 +85,13 @@ Following are a few examples:
 - Create a new project named `foo`:
 
   ```console
-  $ docker-compose run myapp nami execute symfony createProject foo
+  $ docker-compose run symfony nami execute symfony createProject foo
   ```
 
 - Create a new project named `bar` which uses Symfony version `2.5.0`
 
   ```console
-  $ docker-compose run myapp nami execute symfony createProject "bar 2.5.0"
+  $ docker-compose run symfony nami execute symfony createProject "bar 2.5.0"
   ```
 
   Note: In the above two examples the `docker-compose.yml` file should be updated so that the `SYMFONY_PROJECT_NAME` specifies the project name that should be served my the PHP application server.

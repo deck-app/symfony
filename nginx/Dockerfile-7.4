@@ -1,0 +1,39 @@
+FROM ghcr.io/deck-app/nginx:v7.4
+LABEL maintainer Naba Das <hello@get-deck.com>
+
+# Persistent runtime dependencies
+# Example RUN apk add --no-cache php7-openssl php7-sysvmsg php7-curl
+
+COPY default.conf /etc/nginx/conf.d/default.conf
+RUN apk add --no-cache zip git 
+RUN apk add php7-pdo php7-zip
+
+
+WORKDIR /var/www
+#PHP display error enable or disable
+ARG PHP_VERSION
+COPY php_ini/php${PHP_VERSION}.ini /etc/php7/php.ini
+ARG DISPLAY_PHPERROR
+RUN if [ ${DISPLAY_PHPERROR} = true ]; then \
+sed -i "s#{DISPLAY}#On#g" /etc/php7/php.ini \
+;else \
+sed -i "s#{DISPLAY}#Off#g" /etc/php7/php.ini \
+;fi
+
+#Xdebug enable or disable
+ARG XDEBUG
+RUN if [ ${XDEBUG} = true ]; then \
+apk add php8-pecl-xdebug \
+&& echo "zend_extension=xdebug" >> /etc/php7/php.ini \
+;fi
+
+RUN curl -sS https://get.symfony.com/cli/installer | bash
+RUN mv /root/.symfony/bin/symfony /usr/local/bin/symfony
+RUN git config --global user.email "hello@get-deck.com" \ 
+    && git config --global user.name "Deck App"
+
+COPY docker-entrypoint.sh /docker-entrypoint.sh
+
+RUN chmod +x /docker-entrypoint.sh
+ENTRYPOINT ["/docker-entrypoint.sh"]
+CMD ["/sbin/runit-wrapper"]

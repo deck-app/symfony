@@ -4,8 +4,13 @@ LABEL maintainer Naba Das <hello@get-deck.com>
 # Persistent runtime dependencies
 # Example RUN apk add --no-cache php8-openssl php8-sysvmsg php8-curl
 
-
+RUN mkdir -p /app
+RUN mkdir -p /var/preview
 COPY httpd.conf /etc/apache2/httpd.conf
+COPY httpd.conf /app/httpd.conf
+RUN wget -O /var/preview/index.html https://raw.githubusercontent.com/deck-app/stack-preview-screen/main/install/index.html
+RUN sed -i "s#{SERVER_ROOT}#/var/preview#g" /etc/apache2/httpd.conf
+RUN sed -i "s#{SERVER_ROOT}#/var/www/public#g" /app/httpd.conf
 RUN ln -s /usr/bin/php /usr/bin/php8
 
 
@@ -38,5 +43,4 @@ RUN git config --global user.email "hello@get-deck.com" \
 COPY docker-entrypoint.sh /docker-entrypoint.sh
 
 RUN chmod +x /docker-entrypoint.sh
-ENTRYPOINT ["/docker-entrypoint.sh"]
-CMD ["/sbin/runit-wrapper"]
+CMD /docker-entrypoint.sh & /sbin/runit-wrapper

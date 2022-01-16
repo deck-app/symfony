@@ -31,15 +31,23 @@ apk add php7-pecl-xdebug \
 && echo "zend_extension=xdebug" >> /etc/php7/php.ini \
 ;fi
 
-RUN apk add php7-pdo php7-zip
+RUN apk add php7-pdo php7-zip php7-pdo_mysql php7-intl
 RUN apk add zip git
+
+COPY docker-entrypoint.sh /docker-entrypoint.sh
+
+#SYMFONY_INSTALL enable or disable
+ARG SYMFONY_INSTALL
+RUN if [ ${SYMFONY_INSTALL} = true ]; then \
+sed -i "s#{SYMFONY_INSTALL}#true#g" /docker-entrypoint.sh \
+;else \
+sed -i "s#{SYMFONY_INSTALL}#false#g" /docker-entrypoint.sh \
+;fi
 
 RUN curl -sS https://get.symfony.com/cli/installer | bash
 RUN mv /root/.symfony/bin/symfony /usr/local/bin/symfony
 RUN git config --global user.email "hello@get-deck.com" \ 
     && git config --global user.name "Deck App"
-    
-COPY docker-entrypoint.sh /docker-entrypoint.sh
 
 RUN chmod +x /docker-entrypoint.sh
 CMD /docker-entrypoint.sh & /sbin/runit-wrapper

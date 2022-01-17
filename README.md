@@ -2,7 +2,7 @@
 
 [Symfony](https://symfony.com/), is a web application framework written in [PHP](http://www.php.net) under [MIT License](http://symfony.com/doc/current/contributing/code/license.html).
 
-The Symfony Development Container has been carefully engineered to provide you and your team with a highly reproducible Symfony development environment. We hope you find the Symfony Development Container useful in your quest for world domination. Happy hacking!
+Symfony is an open source PHP framework with MVC architecture. It is one of the most popular application frameworks among the open source developers' community. It is used to build high-performance complex web applications
 
 
 ## Getting started

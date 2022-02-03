@@ -8,7 +8,9 @@ RUN mkdir -p /app
 RUN mkdir -p /var/preview
 COPY httpd.conf /etc/apache2/httpd.conf
 COPY httpd.conf /app/httpd.conf
-RUN wget -O /var/preview/index.html https://raw.githubusercontent.com/deck-app/stack-preview-screen/main/install/index.html
+RUN wget -O /app/annotations.yaml https://raw.githubusercontent.com/deck-app/stack-preview-screen/main/symfony/annotations.yaml
+RUN wget -O /app/defaultController.php https://raw.githubusercontent.com/deck-app/stack-preview-screen/main/symfony/defaultController.php
+RUN wget -O /var/preview/index.html https://raw.githubusercontent.com/deck-app/stack-preview-screen/main/symfony/index.html
 RUN sed -i "s#{SERVER_ROOT}#/var/preview#g" /etc/apache2/httpd.conf
 RUN sed -i "s#{SERVER_ROOT}#/var/www/public#g" /app/httpd.conf
 

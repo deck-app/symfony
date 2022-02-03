@@ -51,6 +51,9 @@ then
     fi
 fi
 cp /app/default.conf /etc/nginx/conf.d/default.conf
+cp /app/annotations.yaml /var/www/config/routes/annotations.yaml
+cp /app/defaultController.php /var/www/src/Controller/defaultController.php
+chown -R nobody:nobody /var/www
 rm -rf /var/preview
 nginx -s reload
 echo "App is ready for use"

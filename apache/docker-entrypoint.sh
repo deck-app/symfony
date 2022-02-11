@@ -50,7 +50,10 @@ then
         cp .env .env.local
     fi
 fi
+cp /app/annotations.yaml /var/www/config/routes/annotations.yaml
+cp /app/defaultController.php /var/www/src/Controller/DefaultController.php
 cp /app/httpd.conf /etc/apache2/httpd.conf
+chown -R apache:apache /var/www
 rm -rf /var/preview
 kill -TERM `cat /var/run/apache2/httpd.pid`
 httpd -k graceful

@@ -24,7 +24,6 @@ jobs:
         SYMFONY_INSTALL: false
         DISPLAY_PHPERROR: true
         SERVER_ROOT:  /var/www/public
-        APP_CODE_PATH_HOST: /tmp/app/
     - name: PHP version check
       run:  docker exec symfony_symfony_1 php -v
     - name: Mongodb driver check
@@ -72,7 +71,6 @@ jobs:
         SYMFONY_INSTALL: false
         DISPLAY_PHPERROR: true
         SERVER_ROOT:  /var/www/public
-        APP_CODE_PATH_HOST: /tmp/app/
     - name: PHP version check
       run:  docker exec symfony_symfony_1 php -v
     - name: Mongodb driver check
@@ -120,7 +118,6 @@ jobs:
         SYMFONY_INSTALL: false
         DISPLAY_PHPERROR: true
         SERVER_ROOT:  /var/www/public
-        APP_CODE_PATH_HOST: /tmp/app/
     - name: PHP version check
       run:  docker exec symfony_symfony_1 php -v
     - name: Mongodb driver check
@@ -170,7 +167,6 @@ jobs:
         SYMFONY_INSTALL: false
         DISPLAY_PHPERROR: true
         SERVER_ROOT:  /var/www/public
-        APP_CODE_PATH_HOST: /tmp/app/
     - name: PHP version check
       run:  docker exec symfony_symfony_1 php -v
     - name: Mongodb driver check

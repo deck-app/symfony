@@ -39,10 +39,10 @@ jobs:
     #     docker exec symfony_symfony_1 symfony check:requirements
     #     docker exec symfony_symfony_1 composer req --dev maker ormfixtures fakerphp/faker --no-cache
     #     docker exec symfony_symfony_1 composer req doctrine twig
-    - name: Copy .env
-      run: docker exec symfony_symfony_1 cp .env .env.local
-    - name: Directory Permissions
-      run:  docker exec symfony_symfony_1 chmod -R 777 storage
+    # - name: Copy .env
+    #   run: docker exec symfony_symfony_1 cp .env .env.local
+    # - name: Directory Permissions
+    #   run:  docker exec symfony_symfony_1 chmod -R 777 storage
     - name: Root Path change
       run:  |
         docker exec symfony_symfony_1 cp /app/default.conf /etc/nginx/conf.d/default.conf
@@ -50,6 +50,7 @@ jobs:
         docker exec symfony_symfony_1 nginx -s reload
     - name: Symfony test
       run:  |
+        sleep 30s
         curl -i http://localhost:5647/
     
     - name: Destroy container and file

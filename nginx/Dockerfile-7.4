@@ -20,7 +20,7 @@ RUN apk add php7-pdo php7-zip php7-pdo_mysql php7-intl
 WORKDIR /var/www
 #PHP display error enable or disable
 ARG PHP_VERSION
-COPY php_ini/php${PHP_VERSION}.ini /etc/php7/php.ini
+COPY php_ini/php.ini /etc/php7/php.ini
 ARG DISPLAY_PHPERROR
 RUN if [ ${DISPLAY_PHPERROR} = true ]; then \
 sed -i "s#{DISPLAY}#On#g" /etc/php7/php.ini \

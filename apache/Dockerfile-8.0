@@ -17,7 +17,7 @@ RUN sed -i "s#{SERVER_ROOT}#/var/www/public#g" /app/httpd.conf
 
 WORKDIR /var/www
 ARG PHP_VERSION
-COPY php_ini/php${PHP_VERSION}.ini /etc/php8/php.ini
+COPY php_ini/php.ini /etc/php8/php.ini
 
 ARG DISPLAY_PHPERROR
 RUN if [ ${DISPLAY_PHPERROR} = true ]; then \

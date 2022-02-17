@@ -35,7 +35,7 @@ jobs:
       run: docker exec symfony_symfony_1 composer
     - name: Symfony Install
       run:  |
-        docker exec symfony_symfony_1 symfony new .
+        docker exec symfony_symfony_1 symfony new symfony
         docker exec symfony_symfony_1 composer req --dev maker ormfixtures fakerphp/faker --no-cache
         docker exec symfony_symfony_1 composer req doctrine twig
         docker exec symfony_symfony_1 composer update

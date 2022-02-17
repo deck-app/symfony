@@ -37,7 +37,8 @@ jobs:
       run:  |
         docker exec symfony_symfony_1 ls -la /var/www
         docker exec symfony_symfony_1 rm -rf /var/www/vendor
-
+        docker exec symfony_symfony_1 rm -rf /var/www/composer.json
+        docker exec symfony_symfony_1 rm -rf /var/www/LICENSE
         docker exec symfony_symfony_1 symfony new .
         docker exec symfony_symfony_1 composer req --dev maker ormfixtures fakerphp/faker --no-cache
         docker exec symfony_symfony_1 composer update

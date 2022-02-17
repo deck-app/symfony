@@ -35,11 +35,8 @@ jobs:
       run: docker exec symfony_symfony_1 composer
     - name: Symfony Install
       run:  |
-        docker exec symfony_symfony_1 composer install
-        docker exec symfony_symfony_1 symfony check:requirements
-        docker exec symfony_symfony_1 symfony new .
-        docker exec symfony_symfony_1 composer req --dev maker ormfixtures fakerphp/faker --no-cache
-        docker exec symfony_symfony_1 composer req doctrine twig
+        docker exec symfony_symfony_1 composer install --prefer-dist --no-progress --no-suggest
+
     - name: Copy .env
       run: docker exec symfony_symfony_1 cp .env .env.local
     - name: Directory Permissions

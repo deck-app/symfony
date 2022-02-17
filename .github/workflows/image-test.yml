@@ -49,7 +49,7 @@ jobs:
       run:  docker exec symfony_symfony_1 cat /etc/nginx/conf.d/default.conf
     - name: Symfony test
       run:  |
-        curl -i http://localhost:5647/ | grep http
+        curl -i http://localhost:5647/
     - name: Destroy container and file
       run:  docker-compose down
     - name: Deleted file

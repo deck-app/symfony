@@ -37,8 +37,6 @@ jobs:
       run:  |
         docker exec symfony_symfony_1 composer global require --no-progress --no-scripts --no-plugins symfony/flex
         docker exec symfony_symfony_1 composer update
-        docker exec symfony_symfony_1 vendor/bin/simple-phpunit install
-        docker exec symfony_symfony_1 vendor/bin/simple-phpunit --version
 
     - name: Copy .env
       run: docker exec symfony_symfony_1 cp .env .env.local

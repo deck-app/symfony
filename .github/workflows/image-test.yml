@@ -14,6 +14,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
+    - name: File and folder check
+      run:  |
+        while [ -d /tmp/symfony ]
+        do
+          sleep 3s
+          sudo rm -rf /tmp/symfony
+        done
     - name: Build the Docker image nginx php8 and symfony
       run: docker-compose -f "docker-compose.yml" up -d --build
       env:

@@ -36,6 +36,7 @@ jobs:
     - name: Symfony Install
       run:  |
         docker exec symfony_symfony_1 ls -la /var/www
+        docker exec symfony_symfony_1 composer clearcache
         docker exec symfony_symfony_1 composer update
     #     docker exec symfony_symfony_1 composer update
 

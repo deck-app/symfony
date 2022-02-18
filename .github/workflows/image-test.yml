@@ -33,23 +33,20 @@ jobs:
       run: docker exec symfony_symfony_1 php -m | grep mysqli
     - name: Composer test
       run: docker exec symfony_symfony_1 composer
-    - name: Symfony Install
-      run:  |
-        docker exec symfony_symfony_1 ls -la /var/www
-        docker exec symfony_symfony_1 composer req --dev maker ormfixtures fakerphp/faker --no-cache
-        docker exec symfony_symfony_1 composer update
+    # - name: Symfony Install
+    #   run:  |
+    #     docker exec symfony_symfony_1 ls -la /var/www
+    #     docker exec symfony_symfony_1 composer req --dev maker ormfixtures fakerphp/faker --no-cache
+    #     docker exec symfony_symfony_1 composer update
 
-    - name: Copy .env
-      run: docker exec symfony_symfony_1 cp .env .env.local
-    - name: Root Path change
-      run:  |
-        docker exec symfony_symfony_1 cp /app/default.conf /etc/nginx/conf.d/default.conf
-        docker exec symfony_symfony_1 cp /app/annotations.yaml /var/www/config/routes/annotations.yaml
-        docker exec symfony_symfony_1 cp /app/defaultController.php /var/www/src/Controller/defaultController.php
-        docker exec symfony_symfony_1 pkill -9 php
-        docker exec symfony_symfony_1 nginx -s reload
-    - name: Root location
-      run:  docker exec symfony_symfony_1 cat /etc/nginx/conf.d/default.conf
+    # - name: Copy .env
+    #   run: docker exec symfony_symfony_1 cp .env .env.local
+    # - name: Root Path change
+    #   run:  |
+    #     docker exec symfony_symfony_1 pkill -9 php
+    #     docker exec symfony_symfony_1 nginx -s reload
+    # - name: Root location
+    #   run:  docker exec symfony_symfony_1 cat /etc/nginx/conf.d/default.conf
     - name: Symfony test
       run:  |
         bash -c 'while [[ "$(curl -s -o /dev/null -w ''%{http_code}'' http://localhost:5647)" != "200" ]]; do sleep 5; done'

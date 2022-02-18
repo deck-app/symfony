@@ -33,10 +33,10 @@ jobs:
       run: docker exec symfony_symfony_1 php -m | grep mysqli
     - name: Composer test
       run: docker exec symfony_symfony_1 composer
-    # - name: Symfony Install
-    #   run:  |
-    #     docker exec symfony_symfony_1 ls -la /var/www
-    #     docker exec symfony_symfony_1 composer req --dev maker ormfixtures fakerphp/faker --no-cache
+    - name: Symfony Install
+      run:  |
+        docker exec symfony_symfony_1 ls -la /var/www
+        docker exec symfony_symfony_1 composer update
     #     docker exec symfony_symfony_1 composer update
 
     # - name: Copy .env

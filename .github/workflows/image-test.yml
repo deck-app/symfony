@@ -11,7 +11,7 @@ on:
 jobs:
 
   Nginx-php8-symfony:
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
     - name: Build the Docker image nginx php8 and symfony

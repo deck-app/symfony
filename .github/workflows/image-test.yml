@@ -50,6 +50,7 @@ jobs:
     - name: Symfony test
       run:  |
         bash -c 'while [[ "$(curl -s -o /dev/null -w ''%{http_code}'' http://localhost:5647)" != "200" ]]; do sleep 5; done'
+        curl -i http://localhost:5647
     - name: Destroy container and file
       run:  docker-compose down
     - name: Deleted file

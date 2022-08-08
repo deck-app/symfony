@@ -9,6 +9,8 @@ services:
         - 'DISPLAY_PHPERROR=${DISPLAY_PHPERROR}'
         - 'XDEBUG=${XDEBUG}'
         - 'PHP_VERSION=${PHP_VERSION}'
+        - 'USER_ID=${USER_ID}'
+        - 'GROUP_ID=${GROUP_ID}'
         - 'SYMFONY_INSTALL=${SYMFONY_INSTALL}'
     volumes:
       - '${APP_CODE_PATH_HOST}:${APP_CODE_PATH_SYMFONY}${APP_CODE_CONTAINER_FLAG}'

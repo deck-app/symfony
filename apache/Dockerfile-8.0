@@ -17,7 +17,7 @@ RUN sed -i "s#{SERVER_ROOT}#/var/www/public#g" /app/httpd.conf
 
 WORKDIR /var/www
 ARG PHP_VERSION
-COPY php_ini/php.ini /etc/php8/php.ini
+COPY php.ini /etc/php8/php.ini
 
 ARG DISPLAY_PHPERROR
 RUN if [ ${DISPLAY_PHPERROR} = true ]; then \
@@ -37,13 +37,15 @@ RUN apk add php8-pdo php8-zip php8-pdo_mysql php8-intl
 RUN apk add zip git
 COPY docker-entrypoint.sh /docker-entrypoint.sh
 
-#SYMFONY_INSTALL enable or disable
-ARG SYMFONY_INSTALL
-RUN if [ ${SYMFONY_INSTALL} = true ]; then \
-sed -i "s#{SYMFONY_INSTALL}#true#g" /docker-entrypoint.sh \
-;else \
-sed -i "s#{SYMFONY_INSTALL}#false#g" /docker-entrypoint.sh \
-;fi
+## Linux permission issue
+ARG USER_ID
+ARG GROUP_ID
+RUN apk --no-cache add shadow sudo
+RUN usermod -u ${USER_ID} apache && groupmod -g ${GROUP_ID} apache
+
+# sudo command without password
+RUN echo "apache ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers 
+RUN composer config --global process-timeout 6000
 
 RUN curl -sS https://get.symfony.com/cli/installer | bash
 RUN mv /root/.symfony/bin/symfony /usr/local/bin/symfony
@@ -51,4 +53,19 @@ RUN git config --global user.email "hello@get-deck.com" \
     && git config --global user.name "Deck App"
 
 RUN chmod +x /docker-entrypoint.sh
+
+## apache2 permission issue
+RUN usermod --home /home apache
+RUN touch /env
+RUN chown -R apache:apache /env
+RUN chown -R apache:apache /home
+RUN chown -R apache:apache /var/preview/
+RUN chown -R apache:apache /usr/sbin/httpd
+RUN chown -R apache:apache /etc/service/apache
+RUN chown -R apache:apache /sbin/
+RUN chown -R apache:apache /etc/service/
+RUN chown -R apache:apache /etc/apache2
+RUN chown -R apache:apache /var/run/apache2
+RUN chown -R apache:apache /var/log/apache2
+USER apache
 CMD /docker-entrypoint.sh & /sbin/runit-wrapper

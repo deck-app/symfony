@@ -19,7 +19,7 @@ RUN apk add php8-pdo php8-zip php8-pdo_mysql php8-intl
 WORKDIR /var/www
 #PHP display error enable or disable
 ARG PHP_VERSION
-COPY php_ini/php.ini /etc/php8/php.ini
+COPY php.ini /etc/php8/php.ini
 ARG DISPLAY_PHPERROR
 RUN if [ ${DISPLAY_PHPERROR} = true ]; then \
 sed -i "s#{DISPLAY}#On#g" /etc/php8/php.ini \
@@ -36,13 +36,15 @@ apk add php8-pecl-xdebug \
 
 COPY docker-entrypoint.sh /docker-entrypoint.sh
 
-#SYMFONY_INSTALL enable or disable
-ARG SYMFONY_INSTALL
-RUN if [ ${SYMFONY_INSTALL} = true ]; then \
-sed -i "s#{SYMFONY_INSTALL}#true#g" /docker-entrypoint.sh \
-;else \
-sed -i "s#{SYMFONY_INSTALL}#false#g" /docker-entrypoint.sh \
-;fi
+## Linux permission issue
+ARG USER_ID
+ARG GROUP_ID
+RUN apk --no-cache add shadow sudo
+RUN usermod -u ${USER_ID} nobody && groupmod -g ${GROUP_ID} nobody
+
+# sudo command without password
+RUN echo "nobody ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
+RUN composer config --global process-timeout 6000
 
 RUN curl -sS https://get.symfony.com/cli/installer | bash
 RUN mv /root/.symfony/bin/symfony /usr/local/bin/symfony
@@ -50,4 +52,21 @@ RUN git config --global user.email "hello@get-deck.com" \
     && git config --global user.name "Deck App"
 
 RUN chmod +x /docker-entrypoint.sh
+
+## nobody permission issue
+RUN usermod --home /home nobody
+COPY www.conf /etc/php7/php-fpm.d/www.conf
+COPY nginx.conf /etc/nginx/nginx.conf
+RUN touch /env
+RUN chown -R nobody:nobody /env
+RUN chown -R nobody:nobody /home
+RUN chown -R nobody:nobody /sbin/
+RUN chown -R nobody:nobody /var/preview/
+RUN chown -R nobody:nobody /etc/php7/
+RUN chown -R nobody:nobody /etc/service/
+RUN chown -R nobody:nobody /var/run/
+RUN chown -R nobody:nobody /var/log/
+RUN chown -R nobody:nobody /var/lib/nginx
+RUN chown -R nobody:nobody /etc/nginx
+USER nobody
 CMD /docker-entrypoint.sh & /sbin/runit-wrapper

@@ -1,9 +1,8 @@
-FROM ghcr.io/deck-app/apache:v7.4
+FROM ghcr.io/deck-app/apache:v8.1
 LABEL maintainer Naba Das <hello@get-deck.com>
 
 # Persistent runtime dependencies
-# Example RUN apk add --no-cache php7-openssl php7-sysvmsg php7-curl
-
+# Example RUN apk add --no-cache php81-openssl php81-sysvmsg php81-curl
 
 RUN mkdir -p /app
 RUN mkdir -p /var/preview
@@ -15,34 +14,33 @@ RUN wget -O /var/preview/index.html https://raw.githubusercontent.com/deck-app/s
 RUN sed -i "s#{SERVER_ROOT}#/var/preview#g" /etc/apache2/httpd.conf
 RUN sed -i "s#{SERVER_ROOT}#/var/www/public#g" /app/httpd.conf
 
+
 WORKDIR /var/www
 ARG PHP_VERSION
-COPY php.ini /etc/php7/php.ini
+COPY php.ini /etc/php81/php.ini
 
 ARG DISPLAY_PHPERROR
 RUN if [ ${DISPLAY_PHPERROR} = true ]; then \
-sed -i "s#{DISPLAY}#On#g" /etc/php7/php.ini \
+sed -i "s#{DISPLAY}#On#g" /etc/php81/php.ini \
 ;else \
-sed -i "s#{DISPLAY}#Off#g" /etc/php7/php.ini \
+sed -i "s#{DISPLAY}#Off#g" /etc/php8/php.ini \
 ;fi
 
 #Xdebug enable or disable
 ARG XDEBUG
 RUN if [ ${XDEBUG} = true ]; then \
-apk add php7-pecl-xdebug \
-&& echo "zend_extension=xdebug" >> /etc/php7/php.ini \
+apk add php81-pecl-xdebug \
+&& echo "zend_extension=xdebug" >> /etc/php81/php.ini \
 ;fi
 
-RUN apk add php7-pdo php7-zip php7-pdo_mysql php7-intl
+RUN apk add php81-pdo php81-zip php81-pdo_mysql php81-intl
 RUN apk add zip git
-
 COPY docker-entrypoint.sh /docker-entrypoint.sh
 
 ## Linux permission issue
 ARG USER_ID
 ARG GROUP_ID
 RUN apk --no-cache add shadow sudo
-RUN ln -s /usr/bin/php /usr/bin/php7
 RUN usermod -u ${USER_ID} apache && groupmod -g ${GROUP_ID} apache
 
 # sudo command without password

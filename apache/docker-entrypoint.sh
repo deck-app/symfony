@@ -27,35 +27,33 @@ then
     fi
 
 fi
-if [[ {SYMFONY_INSTALL} = false ]] 
+
+if [[ "$(ls -A "/var/www/")" ]] 
 then
-    if [[ "$(ls -A "/var/www/")" ]] 
-    then
-        echo "Directory is not Empty, Please deleted hiden file and directory"
-    else
-        cd /var/www/
-        symfony check:requirements
+    echo "Directory is not Empty, Please deleted hiden file and directory"
+else
+    cd /var/www/
+    symfony check:requirements
 
-        echo " ██████╗ ██████╗ ███╗   ███╗██████╗  ██████╗ ███████╗███████╗██████╗     ██╗███╗   ██╗███████╗████████╗ █████╗ ██╗     ██╗     "
-        echo "██╔════╝██╔═══██╗████╗ ████║██╔══██╗██╔═══██╗██╔════╝██╔════╝██╔══██╗    ██║████╗  ██║██╔════╝╚══██╔══╝██╔══██╗██║     ██║     "
-        echo "██║     ██║   ██║██╔████╔██║██████╔╝██║   ██║███████╗█████╗  ██████╔╝    ██║██╔██╗ ██║███████╗   ██║   ███████║██║     ██║     "
-        echo "██║     ██║   ██║██║╚██╔╝██║██╔═══╝ ██║   ██║╚════██║██╔══╝  ██╔══██╗    ██║██║╚██╗██║╚════██║   ██║   ██╔══██║██║     ██║     "
-        echo "╚██████╗╚██████╔╝██║ ╚═╝ ██║██║     ╚██████╔╝███████║███████╗██║  ██║    ██║██║ ╚████║███████║   ██║   ██║  ██║███████╗███████╗"
-        echo " ╚═════╝ ╚═════╝ ╚═╝     ╚═╝╚═╝      ╚═════╝ ╚══════╝╚══════╝╚═╝  ╚═╝    ╚═╝╚═╝  ╚═══╝╚══════╝   ╚═╝   ╚═╝  ╚═╝╚══════╝╚══════╝"
-        echo "                                                                                                                               "
+    echo " ██████╗ ██████╗ ███╗   ███╗██████╗  ██████╗ ███████╗███████╗██████╗     ██╗███╗   ██╗███████╗████████╗ █████╗ ██╗     ██╗     "
+    echo "██╔════╝██╔═══██╗████╗ ████║██╔══██╗██╔═══██╗██╔════╝██╔════╝██╔══██╗    ██║████╗  ██║██╔════╝╚══██╔══╝██╔══██╗██║     ██║     "
+    echo "██║     ██║   ██║██╔████╔██║██████╔╝██║   ██║███████╗█████╗  ██████╔╝    ██║██╔██╗ ██║███████╗   ██║   ███████║██║     ██║     "
+    echo "██║     ██║   ██║██║╚██╔╝██║██╔═══╝ ██║   ██║╚════██║██╔══╝  ██╔══██╗    ██║██║╚██╗██║╚════██║   ██║   ██╔══██║██║     ██║     "
+    echo "╚██████╗╚██████╔╝██║ ╚═╝ ██║██║     ╚██████╔╝███████║███████╗██║  ██║    ██║██║ ╚████║███████║   ██║   ██║  ██║███████╗███████╗"
+    echo " ╚═════╝ ╚═════╝ ╚═╝     ╚═╝╚═╝      ╚═════╝ ╚══════╝╚══════╝╚═╝  ╚═╝    ╚═╝╚═╝  ╚═══╝╚══════╝   ╚═╝   ╚═╝  ╚═╝╚══════╝╚══════╝"
+    echo "                                                                                                                               "
 
-        symfony new .
-        composer req --dev maker ormfixtures fakerphp/faker --no-cache
-        composer req doctrine twig
-        cp .env .env.local
-    fi
+    symfony new .
+    composer req --dev maker ormfixtures fakerphp/faker --no-cache
+    composer req doctrine twig
+    sudo cp .env .env.local
 fi
-cp /app/annotations.yaml /var/www/config/routes/annotations.yaml
-cp /app/defaultController.php /var/www/src/Controller/DefaultController.php
-cp /app/httpd.conf /etc/apache2/httpd.conf
-chown -R apache:apache /var/www
-rm -rf /var/preview
-kill -TERM `cat /var/run/apache2/httpd.pid`
+
+sudo cp /app/annotations.yaml /var/www/config/routes/annotations.yaml
+sudo cp /app/defaultController.php /var/www/src/Controller/DefaultController.php
+sudo cp /app/httpd.conf /etc/apache2/httpd.conf
+sudo chown -R apache:apache /var/www
+sudo rm -rf /var/preview
 httpd -k graceful
 echo "App is ready for use"
 exec "$@"

@@ -25,21 +25,21 @@ From the DECK app, go to stack list and click on project's ` More > configure > 
 #### Edit Nginx configuration
 default.conf is located at ` /nginx/default.conf`
 #### Editing php.in
-PHP ini file is located at `./nginx/php_ini/php{YOUR.PHP.VERSION}.ini`
+PHP ini file is located at `./nginx/php.ini`
 #### Edit Apache configuration
 httpd.conf is located at `./apache/httpd.conf`
 #### Editing php.in
-PHP ini file is located at `./apache/php_ini/php{YOUR.PHP.VERSION}.ini`
+PHP ini file is located at `./apache/php.ini`
 ### Installing / removing PHP extensions
 Add `/` remove PHP extensions from `./apache/Dockerfile-{YOUR.PHP.VERSION}`
 ```
 RUN apk add --update --no-cache bash \
                 curl \
                 curl-dev \
-                php5-intl \
-                php5-openssl \
-                php5-dba \
-                php5-sqlite3 \
+                php7-intl \
+                php7-openssl \
+                php7-dba \
+                php7-sqlite3 \
 ```
 #### Rebuilding from terminal
 You have to rebuild the docker image after you make any changes to the project configuration, use the snippet below to rebuild and restart the stack

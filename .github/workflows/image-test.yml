@@ -2,8 +2,7 @@ name: Symfony
 
 on:
   schedule:
-  - cron:  '30 5,17 * * *'
-  - timezone: 'Asia/Kolkata'
+  - cron:  '30 5 * * *'
   push:
     branches: [ master ]
   pull_request:

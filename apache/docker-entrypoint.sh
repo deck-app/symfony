@@ -13,7 +13,7 @@ then
         echo "╚██████╗╚██████╔╝██║ ╚═╝ ██║██║     ╚██████╔╝███████║███████╗██║  ██║    ╚██████╔╝██║     ██████╔╝██║  ██║   ██║   ███████╗"
         echo " ╚═════╝ ╚═════╝ ╚═╝     ╚═╝╚═╝      ╚═════╝ ╚══════╝╚══════╝╚═╝  ╚═╝     ╚═════╝ ╚═╝     ╚═════╝ ╚═╝  ╚═╝   ╚═╝   ╚══════╝"
         echo "                                                                                                                           "
-        composer update
+        sudo composer update
         echo "Laravel - Clear All [Development]"
     else
         echo " ██████╗ ██████╗ ███╗   ███╗██████╗  ██████╗ ███████╗███████╗██████╗     ██╗███╗   ██╗███████╗████████╗ █████╗ ██╗     ██╗     "
@@ -23,7 +23,7 @@ then
         echo "╚██████╗╚██████╔╝██║ ╚═╝ ██║██║     ╚██████╔╝███████║███████╗██║  ██║    ██║██║ ╚████║███████║   ██║   ██║  ██║███████╗███████╗"
         echo " ╚═════╝ ╚═════╝ ╚═╝     ╚═╝╚═╝      ╚═════╝ ╚══════╝╚══════╝╚═╝  ╚═╝    ╚═╝╚═╝  ╚═══╝╚══════╝   ╚═╝   ╚═╝  ╚═╝╚══════╝╚══════╝"
         echo "                                                                                                                               "
-        composer install
+        sudo composer install
     fi
 
 fi
@@ -33,7 +33,7 @@ then
     echo "Directory is not Empty, Please deleted hiden file and directory"
 else
     cd /var/www/
-    symfony check:requirements
+    sudo symfony check:requirements
 
     echo " ██████╗ ██████╗ ███╗   ███╗██████╗  ██████╗ ███████╗███████╗██████╗     ██╗███╗   ██╗███████╗████████╗ █████╗ ██╗     ██╗     "
     echo "██╔════╝██╔═══██╗████╗ ████║██╔══██╗██╔═══██╗██╔════╝██╔════╝██╔══██╗    ██║████╗  ██║██╔════╝╚══██╔══╝██╔══██╗██║     ██║     "
@@ -43,16 +43,16 @@ else
     echo " ╚═════╝ ╚═════╝ ╚═╝     ╚═╝╚═╝      ╚═════╝ ╚══════╝╚══════╝╚═╝  ╚═╝    ╚═╝╚═╝  ╚═══╝╚══════╝   ╚═╝   ╚═╝  ╚═╝╚══════╝╚══════╝"
     echo "                                                                                                                               "
 
-    symfony new .
-    composer req --dev maker ormfixtures fakerphp/faker --no-cache
-    composer req doctrine twig
+    sudo symfony new .
+    sudo composer req --dev maker ormfixtures fakerphp/faker --no-cache
+    sudo composer req doctrine twig
     sudo cp .env .env.local
 fi
 
 sudo cp /app/annotations.yaml /var/www/config/routes/annotations.yaml
 sudo cp /app/defaultController.php /var/www/src/Controller/DefaultController.php
 sudo cp /app/httpd.conf /etc/apache2/httpd.conf
-sudo chown -R apache:apache /var/www
+sudo chown -R apache:apache /var/www 2> /dev/null
 sudo rm -rf /var/preview
 httpd -k graceful
 echo "App is ready for use"

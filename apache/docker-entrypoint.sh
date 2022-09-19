@@ -48,9 +48,6 @@ else
     sudo composer req doctrine twig
     sudo cp .env .env.local
 fi
-
-sudo cp /app/annotations.yaml /var/www/config/routes/annotations.yaml
-sudo cp /app/defaultController.php /var/www/src/Controller/DefaultController.php
 sudo cp /app/httpd.conf /etc/apache2/httpd.conf
 sudo chown -R apache:apache /var/www 2> /dev/null
 sudo rm -rf /var/preview

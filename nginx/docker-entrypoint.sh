@@ -49,8 +49,6 @@ else
     sudo cp .env .env.local
 fi
 sudo cp /app/default.conf /etc/nginx/conf.d/default.conf
-sudo cp /app/annotations.yaml /var/www/config/routes/annotations.yaml
-sudo cp /app/defaultController.php /var/www/src/Controller/defaultController.php
 sudo chown -R nobody:nobody /var/www 2> /dev/null
 sudo rm -rf /var/preview
 nginx -s reload

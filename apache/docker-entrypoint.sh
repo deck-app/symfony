@@ -23,6 +23,7 @@ else
     sudo symfony new .
     sudo composer req --dev maker ormfixtures fakerphp/faker --no-cache
     sudo composer req doctrine twig
+    sudo composer require symfony/monolog-bundle
     sudo cp .env .env.local
 fi
 if [[ {PHP_VERSION} == 7.4 ]] 

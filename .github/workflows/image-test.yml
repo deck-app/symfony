@@ -57,7 +57,7 @@ jobs:
           sleep 10s
         done
     - name: Symfony page check
-      run: curl -i http://localhost
+      run: docker exec symfony_symfony_1 curl -i http://localhost
     - name: Symfony page check
       run: curl -i http://localhost:5647
     - name: Destroy container and file

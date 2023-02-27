@@ -53,7 +53,7 @@ RUN git config --global user.email "hello@get-deck.com" \
     && git config --global user.name "Deck App"
 
 RUN chmod +x /docker-entrypoint.sh
-
+RUN sed -i "s#{PHP_VERSION}#${PHP_VERSION}#g" /docker-entrypoint.sh
 ## apache2 permission issue
 RUN usermod --home /home apache
 RUN touch /env
